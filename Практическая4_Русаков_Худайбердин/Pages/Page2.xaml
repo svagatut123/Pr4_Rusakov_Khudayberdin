@@ -7,8 +7,47 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Page2">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-    <Grid>
-        
+        <Border BorderBrush="Gray" BorderThickness="1" Height="100" Margin="0,0,0,10">
+            <TextBlock Text="Место для скриншота формулы 2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Border>
+
+        <StackPanel Grid.Row="1">
+            <StackPanel Orientation="Horizontal" Margin="0,5">
+                <Label Content="x:" Width="30"/>
+                <TextBox x:Name="TbX" Width="100" ToolTip="Введите x"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,5">
+                <Label Content="y:" Width="30"/>
+                <TextBox x:Name="TbY" Width="100" ToolTip="Введите y"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,5">
+                <Label Content="z:" Width="30"/>
+                <TextBox x:Name="TbZ" Width="100" ToolTip="Введите z"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,5">
+                <Label Content="f(x):" Width="30"/>
+                <RadioButton x:Name="RbSh" Content="sh(x)" GroupName="Func" IsChecked="True" ToolTip="Гиперболический синус"/>
+                <RadioButton x:Name="RbSq" Content="x^2" GroupName="Func" Margin="10,0,0,0" ToolTip="Квадрат x"/>
+                <RadioButton x:Name="RbExp" Content="e^x" GroupName="Func" Margin="10,0,0,0" ToolTip="Экспонента"/>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10">
+            <Button Content="Вычислить" Click="BtnCalculate_Click" Width="100" Margin="0,0,10,0" ToolTip="Рассчитать функцию"/>
+            <Button Content="Очистить" Click="BtnClear_Click" Width="100" ToolTip="Очистить поля"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,5">
+            <Label Content="Результат:"/>
+            <TextBox x:Name="TbResult" Width="200" IsReadOnly="True" ToolTip="Результат вычисления"/>
+        </StackPanel>
     </Grid>
 </Page>
