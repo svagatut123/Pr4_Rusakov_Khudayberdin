@@ -1,0 +1,9 @@
+﻿<Application x:Class="Практическая4_Русаков_Худайбердин.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Практическая4_Русаков_Худайбердин"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>
