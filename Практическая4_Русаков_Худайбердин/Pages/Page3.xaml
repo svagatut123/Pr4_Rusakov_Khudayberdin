@@ -8,48 +8,53 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Page3">
     <Grid Margin="10">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="200"/>
         </Grid.RowDefinitions>
 
-        <Border BorderBrush="Gray" BorderThickness="1" Height="80" Grid.ColumnSpan="2" Margin="0,0,0,10">
-            <TextBlock Text="Место для скриншота формулы 3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        </Border>
+        <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+       Source="/Images/img3.jpg" 
+       Height="100" 
+       Margin="5" 
+       Stretch="Uniform"
+       HorizontalAlignment="Center"
+       ToolTip="Функции для выбора"/>
+        
 
-        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,10,0">
-            <StackPanel Orientation="Horizontal" Margin="0,2">
-                <Label Content="a:" Width="30"/>
-                <TextBox x:Name="TbA" Width="100"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,2">
-                <Label Content="b:" Width="30"/>
-                <TextBox x:Name="TbB" Width="100"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,2">
-                <Label Content="x0:" Width="30"/>
-                <TextBox x:Name="TbX0" Width="100"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,2">
-                <Label Content="xk:" Width="30"/>
-                <TextBox x:Name="TbXk" Width="100"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,2">
-                <Label Content="dx:" Width="30"/>
-                <TextBox x:Name="TbDx" Width="100"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,10">
-                <Button Content="Вычислить" Click="BtnCalculate_Click" Width="100" Margin="0,0,10,0"/>
-                <Button Content="Очистить" Click="BtnClear_Click" Width="100"/>
-            </StackPanel>
-            <TextBox x:Name="TbResult" Height="200" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="5">
+            <Label Content="X0:" ToolTip="Начало отрезка"/>
+            <TextBox x:Name="TextBoxX0" Width="50" Margin="5" ToolTip="Введите начало"/>
+            <Label Content="Xk:" ToolTip="Конец отрезка"/>
+            <TextBox x:Name="TextBoxXk" Width="50" Margin="5" ToolTip="Введите конец"/>
+            <Label Content="dx:" ToolTip="Шаг функции"/>
+            <TextBox x:Name="TextBoxDx" Width="50" Margin="5" ToolTip="Введите шаг"/>
+            <Label Content="a:" ToolTip="Параметр a"/>
+            <TextBox x:Name="TextBoxA" Width="50" Margin="5" ToolTip="Введите a"/>
+            <Label Content="b:" ToolTip="Параметр b"/>
+            <TextBox x:Name="TextBoxB" Width="50" Margin="5" ToolTip="Введите b"/>
         </StackPanel>
 
-        <Canvas x:Name="ChartCanvas" Grid.Row="1" Grid.Column="1" Background="White" Margin="0,0,0,0" ClipToBounds="True"/>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+            <Button Content="Вычислить" Width="100" Margin="5" 
+                    Click="ButtonCalculate_Click" 
+                    ToolTip="Запустить цикл расчета"/>
+            <Button Content="Очистить" Width="100" Margin="5" 
+                    Click="ButtonClear_Click" 
+                    ToolTip="Очистить поля и график"/>
+        </StackPanel>
+
+        <TextBox Grid.Row="3" x:Name="TextBoxResult" Margin="5" 
+                 TextWrapping="Wrap" AcceptsReturn="True" 
+                 VerticalScrollBarVisibility="Auto" IsReadOnly="True"
+                 ToolTip="Список значений X и Y"/>
+
+        <Border Grid.Row="4" BorderBrush="Black" BorderThickness="1" Margin="5">
+            <Canvas x:Name="CanvasChart" Background="White" 
+                    ToolTip="График функции"/>
+        </Border>
     </Grid>
 </Page>

@@ -11,11 +11,16 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-            <Button Content="Страница 1" Click="BtnPage1_Click" Margin="5" ToolTip="Переход к первой функции"/>
-            <Button Content="Страница 2" Click="BtnPage2_Click" Margin="5" ToolTip="Переход ко второй функции"/>
-            <Button Content="Страница 3" Click="BtnPage3_Click" Margin="5" ToolTip="Переход к третьей функции"/>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Background="LightGray">
+            <Button Content="Страница 1" Width="120" Margin="5" 
+                    Click="ButtonPage1_Click" ToolTip="Перейти к странице 1"/>
+            <Button Content="Страница 2" Width="120" Margin="5" 
+                    Click="ButtonPage2_Click" ToolTip="Перейти к странице 2"/>
+            <Button Content="Страница 3" Width="120" Margin="5" 
+                    Click="ButtonPage3_Click" ToolTip="Перейти к странице 3"/>
         </StackPanel>
-        <Frame x:Name="MainFrame" Grid.Row="1" NavigationUIVisibility="Hidden"/>
+
+        <Frame Grid.Row="1" x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

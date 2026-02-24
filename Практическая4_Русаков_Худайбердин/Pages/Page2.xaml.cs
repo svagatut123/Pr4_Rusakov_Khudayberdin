@@ -25,44 +25,54 @@ namespace Практическая4_Русаков_Худайбердин
             InitializeComponent();
         }
 
-        private double GetFx(double x)
+        private void ButtonCalculate_Click(object sender, RoutedEventArgs e)
         {
-            if (RbSh.IsChecked == true) return Math.Sinh(x);
-            if (RbSq.IsChecked == true) return Math.Pow(x, 2);
-            if (RbExp.IsChecked == true) return Math.Exp(x);
-            return x;
+            if (string.IsNullOrEmpty(TextBoxX.Text))
+            {
+                MessageBox.Show("Введите значение X.", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            double x;
+            if (!double.TryParse(TextBoxX.Text, out x))
+            {
+                MessageBox.Show("Неверный формат числа.", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            double result = 0;
+            if (RadioSh.IsChecked == true)
+            {
+                result = Math.Sinh(x);
+            }
+            else if (RadioPow.IsChecked == true)
+            {
+                result = x * x;
+            }
+            else if (RadioExp.IsChecked == true)
+            {
+                result = Math.Exp(x);
+            }
+            else
+            {
+                MessageBox.Show("Выберите функцию.", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            TextBoxResult.Text = result.ToString("F4");
         }
 
-        private void BtnCalculate_Click(object sender, RoutedEventArgs e)
+        private void ButtonClear_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                double x = double.Parse(TbX.Text.Replace(",", "."));
-                double y = double.Parse(TbY.Text.Replace(",", "."));
-                double z = double.Parse(TbZ.Text.Replace(",", "."));
-
-                double absXY = Math.Abs(x - y);
-                double num = Math.Sqrt(8 + Math.Pow(absXY, 2) + 1);
-                double den = 3 * Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2) + 2);
-                double fx = GetFx(x);
-                double part2 = Math.Exp(absXY) * (Math.Pow(Math.Tan(z), 2) + 1) * fx;
-
-                double result = (num / den) - part2;
-                TbResult.Text = result.ToString("F6");
-            }
-            catch
-            {
-                MessageBox.Show("Ошибка ввода данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private void BtnClear_Click(object sender, RoutedEventArgs e)
-        {
-            TbX.Clear();
-            TbY.Clear();
-            TbZ.Clear();
-            TbResult.Clear();
-            RbSh.IsChecked = true;
+            TextBoxX.Clear();
+            TextBoxResult.Clear();
+            RadioSh.IsChecked = false;
+            RadioPow.IsChecked = false;
+            RadioExp.IsChecked = false;
+            TextBoxX.Focus();
         }
     }
 }

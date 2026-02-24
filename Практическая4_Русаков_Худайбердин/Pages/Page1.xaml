@@ -13,35 +13,52 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <Border BorderBrush="Gray" BorderThickness="1" Height="100" Margin="0,0,0,10">
-            <TextBlock Text="C:\Users\234811\Downloads\kk" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        </Border>
+        <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+       Source="/Images/img1.jpg" 
+       Height="100" 
+       Margin="5" 
+       Stretch="Uniform"
+       HorizontalAlignment="Center"
+       ToolTip="Формула для вычисления Вариант 2"/>
 
-        <StackPanel Grid.Row="1">
-            <StackPanel Orientation="Horizontal" Margin="0,5">
-                <Label Content="x:" Width="30"/>
-                <TextBox x:Name="TbX" Width="100" ToolTip="Введите x"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,5">
-                <Label Content="y:" Width="30"/>
-                <TextBox x:Name="TbY" Width="100" ToolTip="Введите y"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,5">
-                <Label Content="z:" Width="30"/>
-                <TextBox x:Name="TbZ" Width="100" ToolTip="Введите z"/>
-            </StackPanel>
+        <Label Grid.Row="1" Grid.Column="0" Content="X:" 
+               ToolTip="Введите значение переменной X"/>
+        <TextBox Grid.Row="1" Grid.Column="1" x:Name="TextBoxX" 
+                 Margin="5" ToolTip="Поле для ввода X"/>
+
+        <Label Grid.Row="2" Grid.Column="0" Content="Y:" 
+               ToolTip="Введите значение переменной Y"/>
+        <TextBox Grid.Row="2" Grid.Column="1" x:Name="TextBoxY" 
+                 Margin="5" ToolTip="Поле для ввода Y"/>
+
+        <Label Grid.Row="3" Grid.Column="0" Content="Z:" 
+               ToolTip="Введите значение переменной Z"/>
+        <TextBox Grid.Row="3" Grid.Column="1" x:Name="TextBoxZ" 
+                 Margin="5" ToolTip="Поле для ввода Z"/>
+
+        <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
+                    Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+            <Button Content="Вычислить" Width="100" Margin="5" 
+                    Click="ButtonCalculate_Click" 
+                    ToolTip="Нажмите для расчета функции"/>
+            <Button Content="Очистить" Width="100" Margin="5" 
+                    Click="ButtonClear_Click" 
+                    ToolTip="Нажмите для очистки полей"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10">
-            <Button Content="Вычислить" Click="BtnCalculate_Click" Width="100" Margin="0,0,10,0" ToolTip="Рассчитать функцию"/>
-            <Button Content="Очистить" Click="BtnClear_Click" Width="100" ToolTip="Очистить поля"/>
-        </StackPanel>
-
-        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,5">
-            <Label Content="Результат:"/>
-            <TextBox x:Name="TbResult" Width="200" IsReadOnly="True" ToolTip="Результат вычисления"/>
-        </StackPanel>
+        <Label Grid.Row="5" Grid.Column="0" Content="Результат:" 
+               VerticalAlignment="Center" ToolTip="Поле вывода результата"/>
+        <TextBox Grid.Row="5" Grid.Column="1" x:Name="TextBoxResult" 
+                 Margin="5" IsReadOnly="True" 
+                 ToolTip="Здесь отобразится результат вычисления"/>
     </Grid>
 </Page>

@@ -13,41 +13,51 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+       Source="/Images/img2.jpg" 
+       Height="100" 
+       Margin="5" 
+       Stretch="Uniform"
+       HorizontalAlignment="Center"
+       ToolTip="Функции для выбора"/>
 
-        <Border BorderBrush="Gray" BorderThickness="1" Height="100" Margin="0,0,0,10">
-            <TextBlock Text="Место для скриншота формулы 2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        </Border>
+        <Label Grid.Row="1" Grid.Column="0" Content="X:" 
+               ToolTip="Введите значение X"/>
+        <TextBox Grid.Row="1" Grid.Column="1" x:Name="TextBoxX" 
+                 Margin="5" ToolTip="Поле ввода X"/>
 
-        <StackPanel Grid.Row="1">
-            <StackPanel Orientation="Horizontal" Margin="0,5">
-                <Label Content="x:" Width="30"/>
-                <TextBox x:Name="TbX" Width="100" ToolTip="Введите x"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,5">
-                <Label Content="y:" Width="30"/>
-                <TextBox x:Name="TbY" Width="100" ToolTip="Введите y"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,5">
-                <Label Content="z:" Width="30"/>
-                <TextBox x:Name="TbZ" Width="100" ToolTip="Введите z"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,5">
-                <Label Content="f(x):" Width="30"/>
-                <RadioButton x:Name="RbSh" Content="sh(x)" GroupName="Func" IsChecked="True" ToolTip="Гиперболический синус"/>
-                <RadioButton x:Name="RbSq" Content="x^2" GroupName="Func" Margin="10,0,0,0" ToolTip="Квадрат x"/>
-                <RadioButton x:Name="RbExp" Content="e^x" GroupName="Func" Margin="10,0,0,0" ToolTip="Экспонента"/>
-            </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
+                    Orientation="Horizontal" Margin="5">
+            <RadioButton Content="sh(x)" GroupName="Func" Margin="5" x:Name="RadioSh"
+                         ToolTip="Гиперболический синус"/>
+            <RadioButton Content="x^2" GroupName="Func" Margin="5" x:Name="RadioPow"
+                         ToolTip="Квадрат числа"/>
+            <RadioButton Content="e^x" GroupName="Func" Margin="5" x:Name="RadioExp"
+                         ToolTip="Экспонента"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10">
-            <Button Content="Вычислить" Click="BtnCalculate_Click" Width="100" Margin="0,0,10,0" ToolTip="Рассчитать функцию"/>
-            <Button Content="Очистить" Click="BtnClear_Click" Width="100" ToolTip="Очистить поля"/>
+        <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" 
+                    Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+            <Button Content="Вычислить" Width="100" Margin="5" 
+                    Click="ButtonCalculate_Click" 
+                    ToolTip="Вычислить функцию"/>
+            <Button Content="Очистить" Width="100" Margin="5" 
+                    Click="ButtonClear_Click" 
+                    ToolTip="Очистить поля"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,5">
-            <Label Content="Результат:"/>
-            <TextBox x:Name="TbResult" Width="200" IsReadOnly="True" ToolTip="Результат вычисления"/>
-        </StackPanel>
+        <Label Grid.Row="4" Grid.Column="0" Content="Результат:" 
+               VerticalAlignment="Center" ToolTip="Поле вывода результата"/>
+        <TextBox Grid.Row="4" Grid.Column="1" x:Name="TextBoxResult" 
+                 Margin="5" IsReadOnly="True" 
+                 ToolTip="Здесь отобразится результат"/>
     </Grid>
 </Page>

@@ -25,88 +25,118 @@ namespace Практическая4_Русаков_Худайбердин
             InitializeComponent();
         }
 
-        private double CalcY(double x, double a, double b)
+        private void ButtonCalculate_Click(object sender, RoutedEventArgs e)
         {
-            return 1.2 * Math.Pow(a - b, 3) / Math.Exp(x / 2) + x;
+            if (!ValidateInputs(TextBoxX0, TextBoxXk, TextBoxDx, TextBoxA, TextBoxB))
+                return;
+
+            double x0 = double.Parse(TextBoxX0.Text);
+            double xk = double.Parse(TextBoxXk.Text);
+            double dx = double.Parse(TextBoxDx.Text);
+            double a = double.Parse(TextBoxA.Text);
+            double b = double.Parse(TextBoxB.Text);
+
+            if (dx <= 0)
+            {
+                MessageBox.Show("Шаг функции должен быть больше нуля.", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            TextBoxResult.Clear();
+            CanvasChart.Children.Clear();
+
+            string output = "X\t\tY\n";
+            double maxX = double.MinValue;
+            double minX = double.MaxValue;
+            double maxY = double.MinValue;
+            double minY = double.MaxValue;
+
+            List<Point> points = new List<Point>();
+
+            for (double x = x0; x <= xk; x += dx)
+            {
+                double y = 1.2 * Math.Pow(a - b, 3) * Math.Exp(x * x) + x;
+
+                output += string.Format("{0:F2}\t{1:F4}\n", x, y);
+
+                if (x > maxX) maxX = x;
+                if (x < minX) minX = x;
+                if (y > maxY) maxY = y;
+                if (y < minY) minY = y;
+
+                points.Add(new Point(x, y));
+            }
+
+            TextBoxResult.Text = output;
+            DrawChart(points, minX, maxX, minY, maxY);
         }
 
-        private void BtnCalculate_Click(object sender, RoutedEventArgs e)
+        private void DrawChart(List<Point> points, double minX, double maxX, double minY, double maxY)
         {
-            try
+            if (points.Count < 2) return;
+
+            double width = CanvasChart.ActualWidth;
+            double height = CanvasChart.ActualHeight;
+            double padding = 20;
+
+            double rangeX = maxX - minX;
+            double rangeY = maxY - minY;
+
+            if (rangeX == 0) rangeX = 1;
+            if (rangeY == 0) rangeY = 1;
+
+            Polyline polyline = new Polyline();
+            polyline.Stroke = Brushes.Blue;
+            polyline.StrokeThickness = 2;
+
+            for (int i = 0; i < points.Count; i++)
             {
-                double a = double.Parse(TbA.Text.Replace(",", "."));
-                double b = double.Parse(TbB.Text.Replace(",", "."));
-                double x0 = double.Parse(TbX0.Text.Replace(",", "."));
-                double xk = double.Parse(TbXk.Text.Replace(",", "."));
-                double dx = double.Parse(TbDx.Text.Replace(",", "."));
+                double x = points[i].X;
+                double y = points[i].Y;
 
-                TbResult.Clear();
-                ChartCanvas.Children.Clear();
+                double canvasX = padding + ((x - minX) / rangeX) * (width - 2 * padding);
+                double canvasY = (height - padding) - ((y - minY) / rangeY) * (height - 2 * padding);
 
-                double x = x0;
-                double minY = double.MaxValue;
-                double maxY = double.MinValue;
-                string output = "";
-
-                // Первый проход для поиска границ Y
-                for (double i = x0; i <= xk; i += dx)
-                {
-                    double y = CalcY(i, a, b);
-                    if (y < minY) minY = y;
-                    if (y > maxY) maxY = y;
-                }
-
-                // Второй проход для вывода и рисования
-                int pointIndex = 0;
-                for (double i = x0; i <= xk; i += dx)
-                {
-                    double y = CalcY(i, a, b);
-                    output += $"x={i:F2}, y={y:F6}\n";
-
-                    // Рисование точек на Canvas
-                    double canvasWidth = ChartCanvas.ActualWidth;
-                    double canvasHeight = ChartCanvas.ActualHeight;
-
-                    if (canvasWidth > 0 && canvasHeight > 0)
-                    {
-                        double rangeX = xk - x0;
-                        double rangeY = maxY - minY;
-                        if (rangeX == 0) rangeX = 1;
-                        if (rangeY == 0) rangeY = 1;
-
-                        double px = (i - x0) / rangeX * canvasWidth;
-                        double py = canvasHeight - ((y - minY) / rangeY * canvasHeight);
-
-                        Ellipse dot = new Ellipse
-                        {
-                            Width = 3,
-                            Height = 3,
-                            Fill = System.Windows.Media.Brushes.Blue
-                        };
-                        Canvas.SetLeft(dot, px);
-                        Canvas.SetTop(dot, py);
-                        ChartCanvas.Children.Add(dot);
-                    }
-                    pointIndex++;
-                }
-
-                TbResult.Text = output;
+                polyline.Points.Add(new System.Windows.Point(canvasX, canvasY));
             }
-            catch
-            {
-                MessageBox.Show("Ошибка ввода данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+
+            CanvasChart.Children.Add(polyline);
         }
 
-        private void BtnClear_Click(object sender, RoutedEventArgs e)
+        private void ButtonClear_Click(object sender, RoutedEventArgs e)
         {
-            TbA.Clear();
-            TbB.Clear();
-            TbX0.Clear();
-            TbXk.Clear();
-            TbDx.Clear();
-            TbResult.Clear();
-            ChartCanvas.Children.Clear();
+            TextBoxX0.Clear();
+            TextBoxXk.Clear();
+            TextBoxDx.Clear();
+            TextBoxA.Clear();
+            TextBoxB.Clear();
+            TextBoxResult.Clear();
+            CanvasChart.Children.Clear();
+            TextBoxX0.Focus();
+        }
+
+        private bool ValidateInputs(params TextBox[] boxes)
+        {
+            foreach (var box in boxes)
+            {
+                if (string.IsNullOrEmpty(box.Text))
+                {
+                    MessageBox.Show("Заполните все поля ввода.", "Ошибка",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    box.Focus();
+                    return false;
+                }
+
+                if (!double.TryParse(box.Text, out _))
+                {
+                    MessageBox.Show("Неверный формат числа.", "Ошибка",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    box.Focus();
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
