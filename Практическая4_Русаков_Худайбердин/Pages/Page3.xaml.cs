@@ -12,19 +12,28 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Практическая4_Русаков_Худайбердин;
 
 namespace Практическая4_Русаков_Худайбердин
 {
     /// <summary>
-    /// Логика взаимодействия для Page3.xaml
+    /// Страница 3: Циклический расчёт и график (Вариант 2)
     /// </summary>
     public partial class Page3 : Page
     {
+        /// <summary>
+        /// Инициализирует новый экземпляр класса Page3
+        /// </summary>
         public Page3()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Обработчик нажатия кнопки "Вычислить"
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события</param>
         private void ButtonCalculate_Click(object sender, RoutedEventArgs e)
         {
             if (!ValidateInputs(TextBoxX0, TextBoxXk, TextBoxDx, TextBoxA, TextBoxB))
@@ -43,67 +52,37 @@ namespace Практическая4_Русаков_Худайбердин
                 return;
             }
 
-            TextBoxResult.Clear();
-            CanvasChart.Children.Clear();
-
-            string output = "X\t\tY\n";
-            double maxX = double.MinValue;
-            double minX = double.MaxValue;
-            double maxY = double.MinValue;
-            double minY = double.MaxValue;
-
-            List<Point> points = new List<Point>();
-
-            for (double x = x0; x <= xk; x += dx)
+            try
             {
-                double y = 1.2 * Math.Pow(a - b, 3) * Math.Exp(x * x) + x;
+                // Проверка шага через класс Functions
+                Functions.CheckStep(dx);
 
-                output += string.Format("{0:F2}\t{1:F4}\n", x, y);
+                TextBoxResult.Clear();
+                CanvasChart.Children.Clear();
 
-                if (x > maxX) maxX = x;
-                if (x < minX) minX = x;
-                if (y > maxY) maxY = y;
-                if (y < minY) minY = y;
+                string output = "X\t\tY\n";
 
-                points.Add(new Point(x, y));
+                for (double x = x0; x <= xk; x += dx)
+                {
+                    // Вызов метода из класса Functions
+                    double y = Functions.CalculatePage3(x, a, b);
+                    output += string.Format("{0:F2}\t{1:F4}\n", x, y);
+                }
+
+                TextBoxResult.Text = output;
             }
-
-            TextBoxResult.Text = output;
-            DrawChart(points, minX, maxX, minY, maxY);
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка: " + ex.Message, "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
-        private void DrawChart(List<Point> points, double minX, double maxX, double minY, double maxY)
-        {
-            if (points.Count < 2) return;
-
-            double width = CanvasChart.ActualWidth;
-            double height = CanvasChart.ActualHeight;
-            double padding = 20;
-
-            double rangeX = maxX - minX;
-            double rangeY = maxY - minY;
-
-            if (rangeX == 0) rangeX = 1;
-            if (rangeY == 0) rangeY = 1;
-
-            Polyline polyline = new Polyline();
-            polyline.Stroke = Brushes.Blue;
-            polyline.StrokeThickness = 2;
-
-            for (int i = 0; i < points.Count; i++)
-            {
-                double x = points[i].X;
-                double y = points[i].Y;
-
-                double canvasX = padding + ((x - minX) / rangeX) * (width - 2 * padding);
-                double canvasY = (height - padding) - ((y - minY) / rangeY) * (height - 2 * padding);
-
-                polyline.Points.Add(new System.Windows.Point(canvasX, canvasY));
-            }
-
-            CanvasChart.Children.Add(polyline);
-        }
-
+        /// <summary>
+        /// Обработчик нажатия кнопки "Очистить"
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события</param>
         private void ButtonClear_Click(object sender, RoutedEventArgs e)
         {
             TextBoxX0.Clear();
@@ -116,6 +95,11 @@ namespace Практическая4_Русаков_Худайбердин
             TextBoxX0.Focus();
         }
 
+        /// <summary>
+        /// Проверяет заполненность и корректность полей ввода
+        /// </summary>
+        /// <param name="boxes">Массив TextBox для проверки</param>
+        /// <returns>True если все поля корректны, иначе False</returns>
         private bool ValidateInputs(params TextBox[] boxes)
         {
             foreach (var box in boxes)

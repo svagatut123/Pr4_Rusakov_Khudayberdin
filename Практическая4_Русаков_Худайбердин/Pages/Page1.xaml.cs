@@ -12,19 +12,28 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Практическая4_Русаков_Худайбердин;
 
 namespace Практическая4_Русаков_Худайбердин
 {
     /// <summary>
-    /// Логика взаимодействия для Page1.xaml
+    /// Страница 1: Расчёт математической функции (Вариант 2)
     /// </summary>
     public partial class Page1 : Page
     {
+        /// <summary>
+        /// Инициализирует новый экземпляр класса Page1
+        /// </summary>
         public Page1()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Обработчик нажатия кнопки "Вычислить"
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события</param>
         private void ButtonCalculate_Click(object sender, RoutedEventArgs e)
         {
             if (!ValidateInputs(TextBoxX, TextBoxY, TextBoxZ))
@@ -33,31 +42,25 @@ namespace Практическая4_Русаков_Худайбердин
             double x = double.Parse(TextBoxX.Text);
             double y = double.Parse(TextBoxY.Text);
             double z = double.Parse(TextBoxZ.Text);
-            double result;
 
             try
             {
-                double absXY = Math.Abs(x - y);
-                double numerator = Math.Sqrt(8 + Math.Pow(absXY, 2) + 1);
-                double denominator = 3 * x * x + y * y + 2;
-
-                if (denominator == 0)
-                    throw new DivideByZeroException("Деление на ноль в знаменателе.");
-
-                double tanZ = Math.Tan(z);
-                double term2 = Math.Exp(absXY) * (Math.Pow(tanZ, 2) + 1) * x;
-
-                result = (numerator / denominator) - term2;
-
+                // Вызов метода из класса Functions
+                double result = Functions.CalculatePage1(x, y, z);
                 TextBoxResult.Text = result.ToString("F4");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка вычисления: " + ex.Message, "Ошибка",
+                MessageBox.Show("Ошибка: " + ex.Message, "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
+        /// <summary>
+        /// Обработчик нажатия кнопки "Очистить"
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события</param>
         private void ButtonClear_Click(object sender, RoutedEventArgs e)
         {
             TextBoxX.Clear();
@@ -67,6 +70,11 @@ namespace Практическая4_Русаков_Худайбердин
             TextBoxX.Focus();
         }
 
+        /// <summary>
+        /// Проверяет заполненность и корректность полей ввода
+        /// </summary>
+        /// <param name="boxes">Массив TextBox для проверки</param>
+        /// <returns>True если все поля корректны, иначе False</returns>
         private bool ValidateInputs(params TextBox[] boxes)
         {
             foreach (var box in boxes)
