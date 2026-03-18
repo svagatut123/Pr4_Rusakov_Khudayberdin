@@ -15,7 +15,7 @@
         <StackPanel Grid.Row="0" Orientation="Horizontal" Background="LightGray">
             <Button Content="Страница 1" Width="120" Margin="5" 
                     Click="ButtonPage1_Click" ToolTip="Перейти к странице 1"/>
-            <Button Content="Страница 2" Width="120" Margin="5" 
+            <Button Content="Страница 2" Width="119" Margin="5" 
                     Click="ButtonPage2_Click" ToolTip="Перейти к странице 2"/>
             <Button Content="Страница 3" Width="120" Margin="5" 
                     Click="ButtonPage3_Click" ToolTip="Перейти к странице 3"/>
